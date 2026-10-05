@@ -36,15 +36,6 @@ private:
 public:
     Enemy() : _x(0), _y(0), _id('\0') {}
 
-    void setId(char id) {
-        _id=id;
-    }
-    void setX(double x) {
-        _x=x;
-    }
-    void setY(double y) {
-        _y=y;
-    }
     void set(char id,double x,double y) {
         _id=id;
         _x=x;
