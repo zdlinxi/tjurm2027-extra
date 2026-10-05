@@ -23,32 +23,95 @@
     PS：获取输入数据的框架已经替各位实现好了，在对应的地方调用你们编写的设置函数即可。
 */
 
-#include <iostream>
-#include <cmath>
-
+#include <bits/stdc++.h>
 using namespace std;
 
 // ==================== 在此处编写 Enemy和Target 类 ====================
+class Enemy {
+private:
+    double _x;
+    double _y;
+    char _id;
 
+public:
+    Enemy() : _x(0), _y(0), _id('\0') {}
 
+    void setId(char id) {
+        _id=id;
+    }
+    void setX(double x) {
+        _x=x;
+    }
+    void setY(double y) {
+        _y=y;
+    }
+    void set(char id,double x,double y) {
+        _id=id;
+        _x=x;
+        _y=y;
+    }
+    char getId() const {
+        return _id;
+    }
+    double getX() const {
+        return _x;
+    }
+    double getY() const {
+        return _y;
+    }
+    double centerdistance() const {
+        return _x*_x+_y*_y;
+    }
+};
+
+class Target {
+private:
+    Enemy _enemies[4];
+
+public:
+    Enemy& getEnemy(int No_) {
+        return _enemies[No_];
+    }
+    const Enemy& getEnemy(int No_) const {
+        return _enemies[No_];
+    }
+
+    // 输出
+    Enemy closestenemy() const {
+        int bestNo_=0;
+        double bestDistance=_enemies[0].centerdistance();
+
+        for (int i=1; i<4; i++) {
+            double distance = _enemies[i].centerdistance();
+            if (distance<bestDistance) {
+                bestDistance=distance;
+                bestNo_=i;
+            }
+        }
+
+        return _enemies[bestNo_];
+    }
+
+    // 输出
+    void printbestenemy() const {
+        cout << closestenemy().getId() << endl;
+    }
+};
 
 // ====================================================================
-
-
+//主函数
 int main() {
     Target target;
 
-    for (int i = 0; i < 4; i++) {
-        double x, y;
+    for (int i=0; i<4; i++) {
+        double x,y;
         char id;
-        cout << "请输入第 " << i + 1 << " 个目标的兵种ID和坐标(x y): ";
-        cin >> id >> x >> y;
-
-        //在此处调用你的Enemy的设置函数，传入id,x,y
-        
+        cout<<"输入第 " <<i+1<<" 个目标的兵种ID和坐标x y: ";
+        cin>>id>>x>>y;
+        // 调用
+        target.getEnemy(i).set(id, x, y);
     }
-
-    // 调用查找并输出最佳目标
-
+    // 调用
+    target.printbestenemy();
     return 0;
 }
